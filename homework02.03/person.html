@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JS test</title>
+    <style>
+        table {
+            border: 2px solid black;
+            cellpadding: 3;
+        }
+
+        tr {
+            border: 1px solid #ccc;  /* границы между строками */
+        }
+        td {
+            border: 1px solid #ccc;  /* границы между столбцами */
+        }
+
+        .action {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 50px;
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            border-radius: 5px;
+            background-color: aquamarine;
+            position: relative;
+            text-align:center;
+
+        }
+
+        input{
+            display: inline-block;
+            margin: 15px;
+
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+    
+    var persons = [];
+
+    function ask() {
+        var person = {
+            lang: '',
+            age: '',
+            sname: '',
+            name: '',
+        };
+        person.name = prompt("Введите свое имя:");
+        person.sname = prompt("Введите свою фамилию:");
+        person.age = prompt("Введите свой возраст:");
+        person.lang = prompt("Введите язык которым владеете через пробел");
+        //person.lang = prompt("Введите языки которыми владеете через запятую:");
+        persons.push(person);
+
+    }
+    
+    function say() {
+        var table = document.createElement('table');
+        for (var i = 0; i < persons.length; i++){
+         // Insert New Row for table at index '0'.
+            var row = table.insertRow(i);
+            for (j in persons[i]){
+                var coll = row.insertCell(j);
+                coll.innerHTML = persons[i][j];
+            }
+        }
+        var div = document.getElementById('divTable');
+        div.appendChild(table);
+    }
+    
+    function sortByName() {
+        function personsName(a, b) {
+            if (a['name'] < b['name']){
+                return -1;
+            }
+            if (a['name'] > b['name']){
+                return 1;
+            }else {
+                return 0;
+            }
+        }
+        var sortPersons = persons.sort(personsName);
+        var table = document.createElement('table');
+        for (var i = 0; i < sortPersons.length; i++){
+            // Insert New Row for table at index '0'.
+            var row = table.insertRow(i);
+            for (j in sortPersons[i]){
+                var coll = row.insertCell(j);
+                coll.innerHTML = sortPersons[i][j];
+            }
+        }
+        var div = document.getElementById('divTable');
+        div.appendChild(table);
+    }
+    
+    function sortByLanguages() {
+        function personsLang(a, b) {
+            if (a['lang'].split(" ").length > b['lang'].split(" ").length){
+                return -1;
+            }
+            if (a['lang'].split(" ").length < b['lang'].split(" ").length){
+                return 1;
+            }else {
+                return 0;
+            }
+        }
+        var sortLang = persons.sort(personsLang);
+        var table = document.createElement('table');
+        for (var i = 0; i < sortLang.length; i++){
+            // Insert New Row for table at index '0'.
+            var row = table.insertRow(i);
+            for (j in sortLang[i]){
+                var coll = row.insertCell(j);
+                coll.innerHTML = sortLang[i][j];
+            }
+        }
+        var div = document.getElementById('divTable');
+        div.appendChild(table);
+    }
+
+    function askSay() {
+        var z = prompt("Что надо сделать ? | 1.Добавить человека | 2.Вывести данные | 3.Сортировать по имени | " +
+            "4.Сортировка по языку");
+        switch (z) {
+            case '1' :
+                ask();
+                break;
+            case  '2' :
+                say();
+                break;
+            case '3' :
+                sortByName();
+                break;
+            case '4' :
+                sortByLanguages();
+                break;
+            default:
+                document.write('<a href="index.html">Вы ввели не верное значение попробуйте еще раз </a>');
+        }
+    }
+</script>
+
+<div class="universalButton">
+    <input type="button" onclick="askSay()"          value="Выберите действие"/>
+</div>
+<div class="action">
+    <input type="button" onclick="ask()"             value="Добавить человека"/>
+    <input type="button" onclick="say()"             value="Вывести данные"/>
+    <input type="button" onclick="sortByName()"      value="Сортировать по имени"/>
+    <input type="button" onclick="sortByLanguages()" value="Сортировка по языку"/>
+</div>
+<div id="divTable"></div>
+
+</body>
+</html>
